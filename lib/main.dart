@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: TemaApp.gelap,
-      home: HalamanUtama(),
+      // DEV: login disimpan lib/layar/login.dart, dibuka lagi nanti
+      home: const HalamanUtama(),
     );
   }
 }

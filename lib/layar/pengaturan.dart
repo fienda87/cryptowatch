@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../theme/warna.dart';
+import 'login.dart';
 
 class LayarPengaturan extends StatefulWidget {
   const LayarPengaturan({super.key});
@@ -160,8 +161,8 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 border: Border.all(color: WarnaApp.pemisah, width: 0.5),
               ),
               child: GestureDetector(
-                onTap: () {
-                  showDialog(
+                onTap: () async {
+                  var setuju = await showDialog<bool>(
                     context: context,
                     builder: (c) {
                       return AlertDialog(
@@ -170,19 +171,26 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(c);
+                              Navigator.pop(c, false);
                             },
                             child: const Text('Batal'),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(c);
+                              Navigator.pop(c, true);
                             },
                             child: const Text('Keluar', style: TextStyle(color: WarnaApp.rugi)),
                           ),
                         ],
                       );
                     },
+                  );
+                  if (setuju != true || !context.mounted) {
+                    return;
+                  }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => const LayarMasuk()),
                   );
                 },
                 child: const Padding(
