@@ -18,7 +18,6 @@ class LayarPasar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // cari koin
         Padding(
           padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
           child: TextField(
@@ -39,7 +38,6 @@ class LayarPasar extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12),
-        // filter
         SizedBox(
           height: 40,
           child: ListView(
@@ -53,32 +51,19 @@ class LayarPasar extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8),
-        // judul + refresh
         Padding(
           padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'Daftar Koin',
-                style: TextStyle(
-                  color: WarnaApp.teksUtama,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  'refresh',
-                  style: TextStyle(color: WarnaApp.aksen, fontSize: 12),
-                ),
-              ),
-            ],
+          child: Text(
+            'Daftar Koin',
+            style: TextStyle(
+              color: WarnaApp.teksUtama,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
         SizedBox(height: 8),
-        // placeholder daftar koin, nanti diisi api
+        // list koin (api nyusul)
         Expanded(
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 16),

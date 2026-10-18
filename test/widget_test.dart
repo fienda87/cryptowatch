@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:xcrypto/main.dart';
+import 'package:cryptowatch/main.dart';
 
 void main() {
   testWidgets('Home tampil tiga tab', (WidgetTester tester) async {

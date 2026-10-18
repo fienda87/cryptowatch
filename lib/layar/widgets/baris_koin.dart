@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/warna.dart';
 
-// placeholder baris koin, kotak abu nanti diganti data api
+// baris koin, isi api nanti
 class BarisKoinKosong extends StatelessWidget {
   const BarisKoinKosong({super.key});
 

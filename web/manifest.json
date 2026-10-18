@@ -1,6 +1,6 @@
 {
-    "name": "papb_crypto",
-    "short_name": "papb_crypto",
+    "name": "CryptoWatch",
+    "short_name": "CryptoWatch",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

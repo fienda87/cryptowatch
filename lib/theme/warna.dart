@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// warna diambil dari crypto_dashboard biar sama
+// warna crypto_dashboard
 class WarnaApp {
   static const latar = Color(0xFF0B0E11);
   static const permukaan = Color(0xFF151A20);

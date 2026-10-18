@@ -4,7 +4,7 @@ import 'layar/pasar.dart';
 import 'layar/pengaturan.dart';
 import 'theme/warna.dart';
 
-// halaman utama ada bottom nav manual
+// bawah manual aja
 class HalamanUtama extends StatefulWidget {
   const HalamanUtama({super.key});
 
@@ -15,7 +15,7 @@ class HalamanUtama extends StatefulWidget {
 class _HalamanUtamaState extends State<HalamanUtama> {
   int tab = 0;
 
-  // tombol bawah manual
+  // tombol bawah
   Widget tombolBawah(String label, IconData ikon, int urutan) {
     var aktif = tab == urutan;
     return Expanded(
@@ -66,16 +66,19 @@ class _HalamanUtamaState extends State<HalamanUtama> {
         title: Text(tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan')),
       ),
       body: isi,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: WarnaApp.pemisah)),
-        ),
-        child: Row(
-          children: [
-            tombolBawah('Pasar', Icons.show_chart, 0),
-            tombolBawah('Pantauan', Icons.star_border, 1),
-            tombolBawah('Pengaturan', Icons.settings_outlined, 2),
-          ],
+      bottomNavigationBar: SafeArea(
+        top: false,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(top: BorderSide(color: WarnaApp.pemisah)),
+          ),
+          child: Row(
+            children: [
+              tombolBawah('Pasar', Icons.show_chart, 0),
+              tombolBawah('Pantauan', Icons.star_border, 1),
+              tombolBawah('Pengaturan', Icons.settings_outlined, 2),
+            ],
+          ),
         ),
       ),
     );

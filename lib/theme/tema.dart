@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'warna.dart';
 
-// tema gelap gaya crypto_dashboard tanpa google_fonts
+// tema gelap
 class TemaApp {
   static ThemeData get gelap {
     var dasar = ThemeData(brightness: Brightness.dark, useMaterial3: true);

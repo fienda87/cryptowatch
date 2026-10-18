@@ -6,7 +6,7 @@ void main() {
   runApp(MyApp());
 }
 
-// main aplikasi
+// app utama
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

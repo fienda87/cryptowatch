@@ -3,7 +3,7 @@ import '../../theme/warna.dart';
 import 'login.dart';
 
 class LayarPengaturan extends StatefulWidget {
-  const LayarPengaturan({super.key});
+  LayarPengaturan({super.key});
 
   @override
   State<LayarPengaturan> createState() => _LayarPengaturanState();
@@ -14,31 +14,23 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
   bool ubah = false;
   var kontrolNama = TextEditingController();
 
-  @override
-  void dispose() {
-    kontrolNama.dispose();
-    super.dispose();
-  }
-
   String inisial() {
-    var rapi = nama.trim();
-    if (rapi.isEmpty) {
+    if (nama.trim().isEmpty) {
       return '?';
     }
-    return rapi[0].toUpperCase();
+    return nama.trim()[0].toUpperCase();
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // kartu profil
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: WarnaApp.permukaan,
                 borderRadius: BorderRadius.circular(16),
@@ -49,14 +41,14 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                   Container(
                     width: 56,
                     height: 56,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: WarnaApp.permukaanTinggi,
                       shape: BoxShape.circle,
                     ),
                     child: Center(
                       child: Text(
                         inisial(),
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: WarnaApp.aksen,
                           fontSize: 24,
                           fontWeight: FontWeight.w700,
@@ -64,21 +56,21 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           nama.isEmpty ? '-' : nama,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: WarnaApp.teksUtama,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const SizedBox(height: 2),
-                        const Text(
+                        SizedBox(height: 2),
+                        Text(
                           'belum masuk',
                           style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13),
                         ),
@@ -88,8 +80,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            // ubah nama
+            SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
                 color: WarnaApp.permukaan,
@@ -100,14 +91,12 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 children: [
                   if (ubah)
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                      padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                       child: TextField(
                         controller: kontrolNama,
-                        style: const TextStyle(color: WarnaApp.teksUtama),
-                        decoration: const InputDecoration(
+                        style: TextStyle(color: WarnaApp.teksUtama),
+                        decoration: InputDecoration(
                           labelText: 'Nama',
-                          labelStyle: TextStyle(color: WarnaApp.teksRedup),
-                          isDense: true,
                         ),
                       ),
                     ),
@@ -115,12 +104,9 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                     onTap: () {
                       if (ubah) {
                         setState(() {
-                          nama = kontrolNama.text.trim();
+                          nama = kontrolNama.text;
                           ubah = false;
                         });
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Nama diperbarui')),
-                        );
                       } else {
                         kontrolNama.text = nama;
                         setState(() {
@@ -129,7 +115,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                       }
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       child: Row(
                         children: [
                           Icon(
@@ -137,14 +123,14 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                             size: 22,
                             color: WarnaApp.teksUtama,
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               ubah ? 'Simpan nama' : 'Ubah nama',
-                              style: const TextStyle(color: WarnaApp.teksUtama),
+                              style: TextStyle(color: WarnaApp.teksUtama),
                             ),
                           ),
-                          const Icon(Icons.chevron_right, size: 20, color: WarnaApp.teksRedup),
+                          Icon(Icons.chevron_right, size: 20, color: WarnaApp.teksRedup),
                         ],
                       ),
                     ),
@@ -152,8 +138,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            // keluar
+            SizedBox(height: 16),
             Container(
               decoration: BoxDecoration(
                 color: WarnaApp.permukaan,
@@ -161,39 +146,36 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 border: Border.all(color: WarnaApp.pemisah, width: 0.5),
               ),
               child: GestureDetector(
-                onTap: () async {
-                  var setuju = await showDialog<bool>(
+                onTap: () {
+                  showDialog(
                     context: context,
                     builder: (c) {
                       return AlertDialog(
-                        title: const Text('Keluar?'),
-                        content: const Text('Kamu harus masuk lagi untuk membuka app.'),
+                        title: Text('Keluar?'),
+                        content: Text('Kamu harus masuk lagi untuk membuka app.'),
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(c, false);
+                              Navigator.pop(c);
                             },
-                            child: const Text('Batal'),
+                            child: Text('Batal'),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(c, true);
+                              Navigator.pop(c);
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (_) => LayarMasuk()),
+                              );
                             },
-                            child: const Text('Keluar', style: TextStyle(color: WarnaApp.rugi)),
+                            child: Text('Keluar', style: TextStyle(color: WarnaApp.rugi)),
                           ),
                         ],
                       );
                     },
                   );
-                  if (setuju != true || !context.mounted) {
-                    return;
-                  }
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => const LayarMasuk()),
-                  );
                 },
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   child: Row(
                     children: [
@@ -208,11 +190,11 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
-            const Row(
+            SizedBox(height: 24),
+            Row(
               children: [
                 Text(
-                  'Xcrypto v1.0.0',
+                  'CryptoWatch v1.0.0',
                   style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
                 ),
               ],

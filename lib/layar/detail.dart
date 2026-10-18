@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../theme/warna.dart';
 
-// mokup halaman detail koin, semua kotak nanti diisi api
+// detail koin, kotak2 dulu
 class LayarDetail extends StatefulWidget {
   const LayarDetail({super.key});
 
@@ -10,12 +10,10 @@ class LayarDetail extends StatefulWidget {
 }
 
 class _LayarDetailState extends State<LayarDetail> {
-  // kotak abu placeholder
   Widget kotak(double lebar, double tinggi) {
     return Container(width: lebar, height: tinggi, color: WarnaApp.permukaanTinggi);
   }
 
-  // kotak statistik: label statis, nilai nunggu api
   Widget kotakStatKosong(String judul) {
     return Expanded(
       child: Container(
@@ -60,8 +58,7 @@ class _LayarDetailState extends State<LayarDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // kepala: ikon + nama + peringkat, kosong dulu
-            Row(
+            Row( // kepala
               children: [
                 Container(
                   width: 56,
@@ -98,8 +95,7 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 12),
-            // harga + persen, kosong dulu
-            Row(
+            Row( // harga
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 kotak(150, 24),
@@ -116,8 +112,7 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 12),
-            // statistik, label statis nilai nunggu api
-            Row(
+            Row( // statistik
               children: [
                 kotakStatKosong('Kap Pasar'),
                 const SizedBox(width: 8),
@@ -127,8 +122,7 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 16),
-            // judul grafik 24 jam
-            Row(
+            Row( // grafik
               children: [
                 const Text(
                   'Grafik harga',
@@ -154,8 +148,7 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 8),
-            // tempat grafik, nanti diganti chart beneran
-            Container(
+            Container( // grafiknya nanti
               height: 220,
               decoration: BoxDecoration(
                 color: WarnaApp.permukaan,
