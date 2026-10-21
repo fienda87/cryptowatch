@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'layar/pantauan.dart';
 import 'layar/pasar.dart';
 import 'layar/pengaturan.dart';
@@ -64,30 +65,41 @@ class _HalamanUtamaState extends State<HalamanUtama> {
             });
           },
         ),
-        LayarPengaturan()
+        LayarPengaturan(),
       ],
     );
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan'),
-        ),
-      ),
-      // landscape:
-      body: SafeArea(top: false, bottom: false, child: isi),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(top: BorderSide(color: WarnaApp.pemisah)),
+    // tombol back HP: kalau lagi di tab lain, balik ke pasar dulu
+    // baru kalau sudah di pasar, app boleh ditutup
+    return PopScope(
+      canPop: tab == 0,
+      onPopInvokedWithResult: (didPop, hasil) {
+        if (!didPop) {
+          setState(() {
+            tab = 0;
+          });
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan'),
           ),
-          child: Row(
-            children: [
-              tombolBawah('Pasar', Icons.show_chart, 0),
-              tombolBawah('Pantauan', Icons.star_border, 1),
-              tombolBawah('Pengaturan', Icons.settings_outlined, 2),
-
-            ],
+        ),
+        // landscape:
+        body: SafeArea(top: false, bottom: false, child: isi),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: WarnaApp.pemisah)),
+            ),
+            child: Row(
+              children: [
+                tombolBawah('Pasar', Icons.show_chart, 0),
+                tombolBawah('Pantauan', Icons.star_border, 1),
+                tombolBawah('Pengaturan', Icons.settings_outlined, 2),
+              ],
+            ),
           ),
         ),
       ),

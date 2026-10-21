@@ -153,43 +153,6 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: WarnaApp.pemisah, width: 0.5),
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/latihan');
-                },
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.school_outlined,
-                        size: 22,
-                        color: WarnaApp.teksUtama,
-                      ),
-                      SizedBox(width: 12),
-                      Expanded(
-                        child: Text(
-                          'Latihan UI',
-                          style: TextStyle(color: WarnaApp.teksUtama),
-                        ),
-                      ),
-                      Icon(
-                        Icons.chevron_right,
-                        size: 20,
-                        color: WarnaApp.teksRedup,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 16),
-            Container(
-              decoration: BoxDecoration(
-                color: WarnaApp.permukaan,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: WarnaApp.pemisah, width: 0.5),
-              ),
 
               child: GestureDetector(
                 onTap: () {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cryptowatch/layar/widgets/baris_koin.dart';
-import '../model/koin.dart';
 import '../theme/warna.dart';
 
 // LATIHAN 1 — Row, Column, padding, Expanded
