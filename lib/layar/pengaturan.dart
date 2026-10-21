@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/warna.dart';
-import 'login.dart';
 
 class LayarPengaturan extends StatefulWidget {
   LayarPengaturan({super.key});
@@ -72,7 +72,10 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                         SizedBox(height: 2),
                         Text(
                           'belum masuk',
-                          style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13),
+                          style: TextStyle(
+                            color: WarnaApp.teksRedup,
+                            fontSize: 13,
+                          ),
                         ),
                       ],
                     ),
@@ -95,9 +98,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                       child: TextField(
                         controller: kontrolNama,
                         style: TextStyle(color: WarnaApp.teksUtama),
-                        decoration: InputDecoration(
-                          labelText: 'Nama',
-                        ),
+                        decoration: InputDecoration(labelText: 'Nama'),
                       ),
                     ),
                   GestureDetector(
@@ -115,7 +116,10 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                       }
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       child: Row(
                         children: [
                           Icon(
@@ -130,7 +134,11 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                               style: TextStyle(color: WarnaApp.teksUtama),
                             ),
                           ),
-                          Icon(Icons.chevron_right, size: 20, color: WarnaApp.teksRedup),
+                          Icon(
+                            Icons.chevron_right,
+                            size: 20,
+                            color: WarnaApp.teksRedup,
+                          ),
                         ],
                       ),
                     ),
@@ -147,12 +155,52 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
               ),
               child: GestureDetector(
                 onTap: () {
+                  Navigator.pushNamed(context, '/latihan');
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.school_outlined,
+                        size: 22,
+                        color: WarnaApp.teksUtama,
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Latihan UI',
+                          style: TextStyle(color: WarnaApp.teksUtama),
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: WarnaApp.teksRedup,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: WarnaApp.permukaan,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: WarnaApp.pemisah, width: 0.5),
+              ),
+
+              child: GestureDetector(
+                onTap: () {
                   showDialog(
                     context: context,
                     builder: (c) {
                       return AlertDialog(
                         title: Text('Keluar?'),
-                        content: Text('Kamu harus masuk lagi untuk membuka app.'),
+                        content: Text(
+                          'Kamu harus masuk lagi untuk membuka app.',
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () {
@@ -163,12 +211,12 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                           TextButton(
                             onPressed: () {
                               Navigator.pop(c);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(builder: (_) => LayarMasuk()),
-                              );
+                              Navigator.pushReplacementNamed(context, '/login');
                             },
-                            child: Text('Keluar', style: TextStyle(color: WarnaApp.rugi)),
+                            child: Text(
+                              'Keluar',
+                              style: TextStyle(color: WarnaApp.rugi),
+                            ),
                           ),
                         ],
                       );
@@ -182,9 +230,16 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                       Icon(Icons.logout, size: 22, color: WarnaApp.rugi),
                       SizedBox(width: 12),
                       Expanded(
-                        child: Text('Keluar', style: TextStyle(color: WarnaApp.rugi)),
+                        child: Text(
+                          'Keluar',
+                          style: TextStyle(color: WarnaApp.rugi),
+                        ),
                       ),
-                      Icon(Icons.chevron_right, size: 20, color: WarnaApp.teksRedup),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: WarnaApp.teksRedup,
+                      ),
                     ],
                   ),
                 ),

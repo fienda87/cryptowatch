@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../model/koin.dart';
 import '../../theme/warna.dart';
 
-// detail koin, kotak2 dulu
+// detail koin, kotak2 sekelton dulu
 class LayarDetail extends StatefulWidget {
   const LayarDetail({super.key});
 
@@ -10,11 +11,7 @@ class LayarDetail extends StatefulWidget {
 }
 
 class _LayarDetailState extends State<LayarDetail> {
-  Widget kotak(double lebar, double tinggi) {
-    return Container(width: lebar, height: tinggi, color: WarnaApp.permukaanTinggi);
-  }
-
-  Widget kotakStatKosong(String judul) {
+  Widget kotakStat(String judul, String nilai) {
     return Expanded(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -28,7 +25,14 @@ class _LayarDetailState extends State<LayarDetail> {
           children: [
             Text(judul, style: const TextStyle(color: WarnaApp.teksRedup, fontSize: 12)),
             const SizedBox(height: 6),
-            kotak(70, 12),
+            Text(
+              nilai,
+              style: TextStyle(
+                color: WarnaApp.teksUtama,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ],
         ),
       ),
@@ -37,6 +41,8 @@ class _LayarDetailState extends State<LayarDetail> {
 
   @override
   Widget build(BuildContext context) {
+    var koin = ModalRoute.of(context)!.settings.arguments as Koin;
+    var naik = koin.perubahan24j >= 0;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -45,11 +51,29 @@ class _LayarDetailState extends State<LayarDetail> {
             Navigator.pop(context);
           },
         ),
-        title: kotak(100, 16),
+        title: Text(
+          koin.nama,
+          style: TextStyle(
+            color: WarnaApp.teksUtama,
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.star_border),
-            onPressed: () {},
+          ValueListenableBuilder(
+            valueListenable: versiFavorit,
+            builder: (context, nilai, anak) {
+              var suka = disukai(koin);
+              return IconButton(
+                onPressed: () {
+                  ubahFavorit(koin);
+                },
+                icon: Icon(
+                  suka ? Icons.star : Icons.star_border,
+                  color: suka ? WarnaApp.aksen : WarnaApp.teksUtama,
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -67,6 +91,16 @@ class _LayarDetailState extends State<LayarDetail> {
                     color: WarnaApp.permukaanTinggi,
                     shape: BoxShape.circle,
                   ),
+                  child: Center(
+                    child: Text(
+                      koin.simbol[0],
+                      style: TextStyle(
+                        color: WarnaApp.teksUtama,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -75,7 +109,14 @@ class _LayarDetailState extends State<LayarDetail> {
                     children: [
                       Row(
                         children: [
-                          kotak(120, 18),
+                          Text(
+                            koin.simbol,
+                            style: TextStyle(
+                              color: WarnaApp.teksUtama,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                           const SizedBox(width: 8),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -83,12 +124,22 @@ class _LayarDetailState extends State<LayarDetail> {
                               color: WarnaApp.permukaanTinggi,
                               borderRadius: BorderRadius.circular(6),
                             ),
-                            child: kotak(24, 12),
+                            child: Text(
+                              'USD',
+                              style: TextStyle(
+                                color: WarnaApp.teksRedup,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 6),
-                      kotak(50, 12),
+                      Text(
+                        'Harga pasar',
+                        style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                      ),
                     ],
                   ),
                 ),
@@ -98,7 +149,14 @@ class _LayarDetailState extends State<LayarDetail> {
             Row( // harga
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                kotak(150, 24),
+                Text(
+                  formatHarga(koin.harga),
+                  style: TextStyle(
+                    color: WarnaApp.teksUtama,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 const SizedBox(width: 8),
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
@@ -107,18 +165,25 @@ class _LayarDetailState extends State<LayarDetail> {
                     color: WarnaApp.permukaan,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: kotak(50, 12),
+                  child: Text(
+                    '${naik ? '+' : ''}${koin.perubahan24j.toStringAsFixed(2)}%',
+                    style: TextStyle(
+                      color: naik ? WarnaApp.untung : WarnaApp.rugi,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ],
             ),
             const SizedBox(height: 12),
             Row( // statistik
               children: [
-                kotakStatKosong('Kap Pasar'),
+                kotakStat('Kap Pasar', '\$${formatRingkas(koin.kapPasar)}'),
                 const SizedBox(width: 8),
-                kotakStatKosong('Volume 24j'),
+                kotakStat('Volume 24j', '\$${formatRingkas(koin.volume24j)}'),
                 const SizedBox(width: 8),
-                kotakStatKosong('Tertinggi'),
+                kotakStat('Tertinggi', formatHarga(koin.tertinggi)),
               ],
             ),
             const SizedBox(height: 16),
@@ -126,7 +191,7 @@ class _LayarDetailState extends State<LayarDetail> {
               children: [
                 const Text(
                   'Grafik harga',
-                  style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w600),
+                  style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w700),
                 ),
                 const Spacer(),
                 Container(
@@ -141,7 +206,7 @@ class _LayarDetailState extends State<LayarDetail> {
                     style: TextStyle(
                       color: WarnaApp.teksUtama,
                       fontSize: 12,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -167,14 +232,13 @@ class _LayarDetailState extends State<LayarDetail> {
             const SizedBox(height: 16),
             const Text(
               'Deskripsi',
-              style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w600),
+              style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w700),
             ),
             const SizedBox(height: 8),
-            kotak(double.infinity, 12),
-            const SizedBox(height: 6),
-            kotak(double.infinity, 12),
-            const SizedBox(height: 6),
-            kotak(200, 12),
+            Text(
+              koin.deskripsi,
+              style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13, height: 1.5),
+            ),
           ],
         ),
       ),

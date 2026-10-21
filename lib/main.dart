@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'app.dart';
+import 'layar/detail.dart';
+import 'layar/login.dart';
 import 'theme/tema.dart';
 
 void main() {
@@ -15,8 +18,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: TemaApp.gelap,
-      // DEV: login disimpan lib/layar/login.dart, dibuka lagi nanti
-      home: const HalamanUtama(),
+      //nanti ganti jadi '/login' kalau firebase sudah masuk
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HalamanUtama(),
+        '/detail': (context) => const LayarDetail(),
+        '/login': (context) => LayarMasuk(),
+
+      },
     );
   }
 }

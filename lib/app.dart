@@ -31,7 +31,11 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(ikon, color: aktif ? WarnaApp.aksen : WarnaApp.teksRedup, size: 20),
+              Icon(
+                ikon,
+                color: aktif ? WarnaApp.aksen : WarnaApp.teksRedup,
+                size: 20,
+              ),
               SizedBox(height: 2),
               Text(
                 label,
@@ -49,23 +53,28 @@ class _HalamanUtamaState extends State<HalamanUtama> {
 
   @override
   Widget build(BuildContext context) {
-    Widget isi;
-    if (tab == 0) {
-      isi = LayarPasar();
-    } else if (tab == 1) {
-      isi = LayarPantauan(kePasar: () {
-        setState(() {
-          tab = 0;
-        });
-      });
-    } else {
-      isi = LayarPengaturan();
-    }
+    var isi = IndexedStack(
+      index: tab,
+      children: [
+        LayarPasar(),
+        LayarPantauan(
+          kePasar: () {
+            setState(() {
+              tab = 0;
+            });
+          },
+        ),
+        LayarPengaturan()
+      ],
+    );
     return Scaffold(
       appBar: AppBar(
-        title: Text(tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan')),
+        title: Text(
+          tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan'),
+        ),
       ),
-      body: isi,
+      // landscape:
+      body: SafeArea(top: false, bottom: false, child: isi),
       bottomNavigationBar: SafeArea(
         top: false,
         child: Container(
@@ -77,6 +86,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
               tombolBawah('Pasar', Icons.show_chart, 0),
               tombolBawah('Pantauan', Icons.star_border, 1),
               tombolBawah('Pengaturan', Icons.settings_outlined, 2),
+
             ],
           ),
         ),

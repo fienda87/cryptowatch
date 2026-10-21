@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../app.dart';
 import '../../theme/warna.dart';
 
 // login pakai google, belum sambung firebase
@@ -8,10 +7,7 @@ class LayarMasuk extends StatelessWidget {
 
   void masuk(BuildContext context) {
     // firebase nyusul
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (c) => const HalamanUtama()),
-    );
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   @override
@@ -98,7 +94,7 @@ class LayarMasuk extends StatelessWidget {
                           style: TextStyle(
                             color: Color(0xFF1F1F1F),
                             fontSize: 15,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ],

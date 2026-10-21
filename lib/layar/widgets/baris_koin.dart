@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../model/koin.dart';
 import '../../theme/warna.dart';
 
-// baris koin, isi api nanti
-class BarisKoinKosong extends StatelessWidget {
-  const BarisKoinKosong({super.key});
+// baris koin
+class BarisKoin extends StatelessWidget {
+  BarisKoin({super.key, required this.koin});
+
+  final Koin koin;
 
   @override
   Widget build(BuildContext context) {
+    var naik = koin.perubahan24j >= 0;
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.all(12),
@@ -27,30 +31,57 @@ class BarisKoinKosong extends StatelessWidget {
                   color: WarnaApp.permukaanTinggi,
                   shape: BoxShape.circle,
                 ),
+                child: Center(
+                  child: Text(
+                    koin.simbol[0],
+                    style: TextStyle(
+                      color: WarnaApp.teksUtama,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(width: 12),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(width: 90, height: 12, color: WarnaApp.permukaanTinggi),
-                  SizedBox(height: 6),
-                  Container(width: 45, height: 10, color: WarnaApp.permukaanTinggi),
+                  Text(
+                    koin.nama,
+                    style: TextStyle(
+                      color: WarnaApp.teksUtama,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    koin.simbol,
+                    style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                  ),
                 ],
               ),
             ],
           ),
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(width: 70, height: 12, color: WarnaApp.permukaanTinggi),
-                  SizedBox(height: 6),
-                  Container(width: 45, height: 10, color: WarnaApp.permukaanTinggi),
-                ],
+              Text(
+                formatHarga(koin.harga),
+                style: TextStyle(
+                  color: WarnaApp.teksUtama,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-              SizedBox(width: 8),
-              Icon(Icons.star_border, color: WarnaApp.teksRedup, size: 20),
+              SizedBox(height: 4),
+              Text(
+                '${naik ? '+' : ''}${koin.perubahan24j.toStringAsFixed(2)}%',
+                style: TextStyle(
+                  color: naik ? WarnaApp.untung : WarnaApp.rugi,
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ],
