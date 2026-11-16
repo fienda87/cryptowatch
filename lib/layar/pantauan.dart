@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../layanan/api_koin.dart';
 import '../model/koin.dart';
 import 'widgets/baris_koin.dart';
 import '../../theme/warna.dart';
@@ -18,17 +19,67 @@ class LayarPantauan extends StatelessWidget {
         if (daftarFavorit.isEmpty) {
           return isiKosong();
         }
-        return ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            for (var koin in daftarFavorit)
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/detail', arguments: koin);
-                },
-                child: BarisKoin(koin: koin),
+        return RefreshIndicator(
+          onRefresh: () async {
+            var pesan = ScaffoldMessenger.of(context);
+            try {
+              var data = await ambilKoin();
+              daftarKoin = data;
+              versiFavorit.value = versiFavorit.value + 1;
+            } catch (e) {
+              pesan.showSnackBar(
+                SnackBar(content: Text('Gagal memperbarui data.')),
+              );
+            }
+          },
+          child: ListView(
+            physics: AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.all(16),
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: 12),
+                child: Text(
+                  '${daftarFavorit.length} aset dipantau',
+                  style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13),
+                ),
               ),
-          ],
+              for (var koin in daftarFavorit)
+                Dismissible(
+                  key: ValueKey(koin.simbol),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    margin: EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(right: 20),
+                    alignment: Alignment.centerRight,
+                    decoration: BoxDecoration(
+                      color: WarnaApp.rugi,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(Icons.delete_outline, color: Colors.white),
+                  ),
+                  onDismissed: (arah) {
+                    ubahFavorit(koin);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${koin.simbol} dihapus dari pantauan'),
+                        action: SnackBarAction(
+                          label: 'Urungkan',
+                          onPressed: () {
+                            ubahFavorit(koin);
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/detail', arguments: koin);
+                    },
+                    child: BarisKoin(koin: koin),
+                  ),
+                ),
+            ],
+          ),
         );
       },
     );

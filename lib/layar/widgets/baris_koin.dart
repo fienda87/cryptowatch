@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../model/koin.dart';
 import '../../theme/warna.dart';
 
@@ -27,19 +28,28 @@ class BarisKoin extends StatelessWidget {
               Container(
                 width: 36,
                 height: 36,
+                clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   color: WarnaApp.permukaanTinggi,
                   shape: BoxShape.circle,
                 ),
-                child: Center(
-                  child: Text(
-                    koin.simbol[0],
-                    style: TextStyle(
-                      color: WarnaApp.teksUtama,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                // logo dari api, kalau gagal pakai huruf awal
+                child: Image.network(
+                  koin.gambar,
+                  width: 36,
+                  height: 36,
+                  errorBuilder: (context, error, stack) {
+                    return Center(
+                      child: Text(
+                        koin.simbol[0],
+                        style: TextStyle(
+                          color: WarnaApp.teksUtama,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(width: 12),
@@ -56,7 +66,9 @@ class BarisKoin extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    koin.simbol,
+                    koin.peringkat > 0
+                        ? '#${koin.peringkat} · ${koin.simbol}'
+                        : koin.simbol,
                     style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
                   ),
                 ],

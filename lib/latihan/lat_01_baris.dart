@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../theme/warna.dart';
 
 // LATIHAN 1 — Row, Column, padding, Expanded
@@ -26,8 +27,8 @@ class Latihan1 extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(16),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,     // kartu di tengah layar
-        crossAxisAlignment: CrossAxisAlignment.stretch,  // kartu selebar layar
+        mainAxisAlignment: MainAxisAlignment.center, // kartu di tengah layar
+        crossAxisAlignment: CrossAxisAlignment.stretch, // kartu selebar layar
         children: [
           Container(
             padding: EdgeInsets.all(12),
@@ -70,7 +71,10 @@ class Latihan1 extends StatelessWidget {
                       ),
                       Text(
                         'BTC',
-                        style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                        style: TextStyle(
+                          color: WarnaApp.teksRedup,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),

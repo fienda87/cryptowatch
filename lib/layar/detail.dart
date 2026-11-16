@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../layanan/api_koin.dart';
 import '../model/koin.dart';
+import 'widgets/grafik_harga.dart';
 import '../../theme/warna.dart';
 
 // detail koin, kotak2 sekelton dulu
@@ -11,6 +14,91 @@ class LayarDetail extends StatefulWidget {
 }
 
 class _LayarDetailState extends State<LayarDetail> {
+  String deskripsiApi = '';
+  bool memuatDeskripsi = true;
+  bool mulai = false;
+  bool bukaLebar = false;
+
+  // grafik
+  List<Titik> titik = [];
+  Map<int, List<Titik>> simpanGrafik = {};
+  int hari = 7;
+  bool memuatGrafik = true;
+  String galatGrafik = '';
+
+  // deskripsi panjang dipotong dulu, sisanya bisa dibuka
+  String teksDeskripsi() {
+    if (deskripsiApi.length <= 280 || bukaLebar) {
+      return deskripsiApi;
+    }
+    return '${deskripsiApi.substring(0, 280)}...';
+  }
+
+  // route baru kebaca disini, jadi ambil argumen + deskripsi api
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!mulai) {
+      mulai = true;
+      var koin = ModalRoute.of(context)!.settings.arguments as Koin;
+      muatDeskripsi(koin.id);
+      muatGrafik(koin.id, hari);
+    }
+  }
+
+  // deskripsi dari api, kalau gagal tampilkan pesan
+  void muatDeskripsi(String id) async {
+    try {
+      var teks = await ambilDeskripsi(id);
+      setState(() {
+        deskripsiApi = teks;
+        memuatDeskripsi = false;
+      });
+    } catch (e) {
+      setState(() {
+        memuatDeskripsi = false;
+      });
+    }
+  }
+
+  // grafik per rentang hari, hasilnya disimpan biar nggak request ulang
+  void muatGrafik(String id, int jumlahHari) async {
+    if (simpanGrafik.containsKey(jumlahHari)) {
+      setState(() {
+        titik = simpanGrafik[jumlahHari]!;
+        memuatGrafik = false;
+        galatGrafik = '';
+      });
+      return;
+    }
+
+    setState(() {
+      memuatGrafik = true;
+      galatGrafik = '';
+    });
+
+    try {
+      var data = await ambilGrafik(id, jumlahHari);
+      simpanGrafik[jumlahHari] = data;
+      // kalau user sudah pindah rentang, hasil lama jangan dipakai
+      if (hari != jumlahHari) {
+        return;
+      }
+      setState(() {
+        titik = data;
+        memuatGrafik = false;
+      });
+    } catch (e) {
+      if (hari != jumlahHari) {
+        return;
+      }
+      setState(() {
+        memuatGrafik = false;
+        galatGrafik = 'Grafik gagal dimuat.';
+      });
+    }
+  }
+
   Widget kotakStat(String judul, String nilai) {
     return Expanded(
       child: Container(
@@ -23,7 +111,10 @@ class _LayarDetailState extends State<LayarDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(judul, style: const TextStyle(color: WarnaApp.teksRedup, fontSize: 12)),
+            Text(
+              judul,
+              style: const TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+            ),
             const SizedBox(height: 6),
             Text(
               nilai,
@@ -34,6 +125,40 @@ class _LayarDetailState extends State<LayarDetail> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  // tombol pilih rentang grafik
+  Widget pilihanHari(String teks, int nilai) {
+    var aktif = hari == nilai;
+    return GestureDetector(
+      onTap: () {
+        if (hari == nilai) {
+          return;
+        }
+        var koin = ModalRoute.of(context)!.settings.arguments as Koin;
+        setState(() {
+          hari = nilai;
+        });
+        muatGrafik(koin.id, nilai);
+      },
+      child: Container(
+        margin: EdgeInsets.only(left: 6),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: aktif ? WarnaApp.permukaanTinggi : WarnaApp.permukaan,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: WarnaApp.pemisah),
+        ),
+        child: Text(
+          teks,
+          style: TextStyle(
+            color: aktif ? WarnaApp.teksUtama : WarnaApp.teksRedup,
+            fontSize: 12,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
     );
@@ -82,24 +207,33 @@ class _LayarDetailState extends State<LayarDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row( // kepala
+            Row(
+              // kepala
               children: [
                 Container(
                   width: 56,
                   height: 56,
+                  clipBehavior: Clip.antiAlias,
                   decoration: const BoxDecoration(
                     color: WarnaApp.permukaanTinggi,
                     shape: BoxShape.circle,
                   ),
-                  child: Center(
-                    child: Text(
-                      koin.simbol[0],
-                      style: TextStyle(
-                        color: WarnaApp.teksUtama,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                  child: Image.network(
+                    koin.gambar,
+                    width: 56,
+                    height: 56,
+                    errorBuilder: (context, error, stack) {
+                      return Center(
+                        child: Text(
+                          koin.simbol[0],
+                          style: TextStyle(
+                            color: WarnaApp.teksUtama,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -119,7 +253,10 @@ class _LayarDetailState extends State<LayarDetail> {
                           ),
                           const SizedBox(width: 8),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 3,
+                            ),
                             decoration: BoxDecoration(
                               color: WarnaApp.permukaanTinggi,
                               borderRadius: BorderRadius.circular(6),
@@ -138,7 +275,10 @@ class _LayarDetailState extends State<LayarDetail> {
                       const SizedBox(height: 6),
                       Text(
                         'Harga pasar',
-                        style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                        style: TextStyle(
+                          color: WarnaApp.teksRedup,
+                          fontSize: 12,
+                        ),
                       ),
                     ],
                   ),
@@ -146,7 +286,8 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 12),
-            Row( // harga
+            Row(
+              // harga
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
@@ -160,7 +301,10 @@ class _LayarDetailState extends State<LayarDetail> {
                 const SizedBox(width: 8),
                 Container(
                   margin: const EdgeInsets.only(bottom: 4),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: WarnaApp.permukaan,
                     borderRadius: BorderRadius.circular(8),
@@ -177,7 +321,8 @@ class _LayarDetailState extends State<LayarDetail> {
               ],
             ),
             const SizedBox(height: 12),
-            Row( // statistik
+            Row(
+              // statistik
               children: [
                 kotakStat('Kap Pasar', '\$${formatRingkas(koin.kapPasar)}'),
                 const SizedBox(width: 8),
@@ -186,59 +331,101 @@ class _LayarDetailState extends State<LayarDetail> {
                 kotakStat('Tertinggi', formatHarga(koin.tertinggi)),
               ],
             ),
+            const SizedBox(height: 8),
+            Row(
+              // statistik tambahan
+              children: [
+                kotakStat('Terendah 24j', formatHarga(koin.terendah)),
+                const SizedBox(width: 8),
+                kotakStat('Peringkat', '#${koin.peringkat}'),
+              ],
+            ),
             const SizedBox(height: 16),
-            Row( // grafik
+            Row(
+              // grafik
               children: [
                 const Text(
                   'Grafik harga',
-                  style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    color: WarnaApp.teksUtama,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: WarnaApp.permukaanTinggi,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: WarnaApp.pemisah),
-                  ),
-                  child: const Text(
-                    '24J',
-                    style: TextStyle(
-                      color: WarnaApp.teksUtama,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
+                pilihanHari('1J', 1),
+                pilihanHari('7H', 7),
+                pilihanHari('30H', 30),
+                pilihanHari('1T', 365),
               ],
             ),
             const SizedBox(height: 8),
-            Container( // grafiknya nanti
+            Container(
               height: 220,
+              padding: const EdgeInsets.fromLTRB(8, 16, 16, 8),
               decoration: BoxDecoration(
                 color: WarnaApp.permukaan,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: WarnaApp.pemisah, width: 0.5),
               ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.show_chart, color: WarnaApp.teksRedup, size: 40),
-                  SizedBox(width: 8),
-                  Text('grafik nyusul', style: TextStyle(color: WarnaApp.teksRedup)),
-                ],
-              ),
+              child: memuatGrafik
+                  ? Center(
+                      child: Text(
+                        'Memuat grafik...',
+                        style: TextStyle(color: WarnaApp.teksRedup),
+                      ),
+                    )
+                  : (galatGrafik != ''
+                        ? Center(
+                            child: Text(
+                              galatGrafik,
+                              style: TextStyle(color: WarnaApp.teksRedup),
+                            ),
+                          )
+                        : GrafikHarga(titik: titik, hari: hari, naik: naik)),
             ),
             const SizedBox(height: 16),
             const Text(
               'Deskripsi',
-              style: TextStyle(color: WarnaApp.teksUtama, fontSize: 16, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                color: WarnaApp.teksUtama,
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
-              koin.deskripsi,
-              style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13, height: 1.5),
+              memuatDeskripsi
+                  ? 'Memuat deskripsi...'
+                  : (deskripsiApi == ''
+                        ? 'Deskripsi tidak tersedia.'
+                        : teksDeskripsi()),
+              style: TextStyle(
+                color: WarnaApp.teksRedup,
+                fontSize: 13,
+                height: 1.5,
+              ),
             ),
+            // kalau kepanjangan, sisanya bisa dibuka
+            if (!memuatDeskripsi && deskripsiApi.length > 280)
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    bukaLebar = !bukaLebar;
+                  });
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Text(
+                    bukaLebar ? 'Tutup' : 'Baca selengkapnya',
+                    style: TextStyle(
+                      color: WarnaApp.aksen,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

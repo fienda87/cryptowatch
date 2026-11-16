@@ -1,4 +1,4 @@
-package com.example.papb_crypto
+package com.cryptowatch.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1039585055230",
+    "project_id": "crypto-fc108",
+    "storage_bucket": "crypto-fc108.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039585055230:android:b4ef468c039474a84cf0af",
+        "android_client_info": {
+          "package_name": "com.cryptowatch.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039585055230-6j2sbhvqabskd7p29p0ns8teacla336m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cryptowatch.app",
+            "certificate_hash": "2f3c61048b3599e5a2d3520365ca82dd6f150016"
+          }
+        },
+        {
+          "client_id": "1039585055230-48uc0md56uj59v5g94br9d0n61vlnmd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVV_Cs63dsZVKuZlty_DHDPoH5Dxphd-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039585055230-48uc0md56uj59v5g94br9d0n61vlnmd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

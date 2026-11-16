@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- izin internet, buat ambil data dari api -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="CryptoWatch"
         android:name="${applicationName}"

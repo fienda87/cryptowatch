@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../layanan/auth.dart';
 import '../../theme/warna.dart';
 
 class LayarPengaturan extends StatefulWidget {
@@ -11,8 +14,29 @@ class LayarPengaturan extends StatefulWidget {
 
 class _LayarPengaturanState extends State<LayarPengaturan> {
   String nama = '';
+  String email = '';
   bool ubah = false;
   var kontrolNama = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    muatProfil();
+  }
+
+  // nama disimpan di hp, email diambil dari akun firebase
+  void muatProfil() async {
+    var toko = await SharedPreferences.getInstance();
+    setState(() {
+      nama = toko.getString('nama') ?? '';
+      email = FirebaseAuth.instance.currentUser?.email ?? '';
+    });
+  }
+
+  void simpanNama(String isi) async {
+    var toko = await SharedPreferences.getInstance();
+    await toko.setString('nama', isi);
+  }
 
   String inisial() {
     if (nama.trim().isEmpty) {
@@ -71,7 +95,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                         ),
                         SizedBox(height: 2),
                         Text(
-                          'belum masuk',
+                          email == '' ? 'belum masuk' : email,
                           style: TextStyle(
                             color: WarnaApp.teksRedup,
                             fontSize: 13,
@@ -108,6 +132,7 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                           nama = kontrolNama.text;
                           ubah = false;
                         });
+                        simpanNama(nama);
                       } else {
                         kontrolNama.text = nama;
                         setState(() {
@@ -172,9 +197,9 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                             child: Text('Batal'),
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               Navigator.pop(c);
-                              Navigator.pushReplacementNamed(context, '/login');
+                              await keluarFirebase();
                             },
                             child: Text(
                               'Keluar',
