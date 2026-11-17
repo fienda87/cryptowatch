@@ -1,4 +1,6 @@
-// model koin, datanya diambil dari api coingecko
+// model koin
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +33,7 @@ class Koin {
   });
 }
 
-// satu titik di grafik harga
+// titik grafik
 class Titik {
   Titik(this.waktu, this.harga);
 
@@ -39,10 +41,10 @@ class Titik {
   double harga;
 }
 
-// diisi dari api, kosong dulu sebelum data datang
+// daftar koin dari api
 List<Koin> daftarKoin = [];
 
-// satu data json dari coingecko jadi Koin
+// json jadi koin
 Koin koinDariJson(Map data) {
   var simbol = (data['symbol'] ?? '').toString().toUpperCase();
   return Koin(
@@ -60,7 +62,7 @@ Koin koinDariJson(Map data) {
   );
 }
 
-// favorit, disimpan biar nggak hilang pas app ditutup
+// favorit
 Set<String> favorit = {};
 var versiFavorit = ValueNotifier(0);
 
@@ -86,9 +88,72 @@ void ubahFavorit(Koin koin) {
   }
   versiFavorit.value = versiFavorit.value + 1;
   simpanFavorit();
+  simpanAwan();
 }
 
-// format uang pakai intl
+// data per akun
+DocumentReference? dokumenSaya() {
+  var user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    return null;
+  }
+  return FirebaseFirestore.instance.collection('users').doc(user.uid);
+}
+
+// favorit dari akun
+Future<void> muatAwan() async {
+  var dok = dokumenSaya();
+  if (dok == null) {
+    return;
+  }
+
+  var isi = await dok.get();
+  if (!isi.exists) {
+    // akun baru, simpan favorit lokal
+    await dok.set({
+      'email': FirebaseAuth.instance.currentUser?.email ?? '',
+      'nama': '',
+      'favorit': favorit.toList(),
+    });
+    return;
+  }
+
+  var data = isi.data() as Map;
+  favorit = (data['favorit'] as List? ?? []).map((e) => e.toString()).toSet();
+  simpanFavorit();
+  versiFavorit.value = versiFavorit.value + 1;
+}
+
+Future<void> simpanAwan() async {
+  var dok = dokumenSaya();
+  if (dok == null) {
+    return;
+  }
+  await dok.set({'favorit': favorit.toList()}, SetOptions(merge: true));
+}
+
+Future<String> ambilNamaAwan() async {
+  var dok = dokumenSaya();
+  if (dok == null) {
+    return '';
+  }
+  var isi = await dok.get();
+  if (!isi.exists) {
+    return '';
+  }
+  var data = isi.data() as Map;
+  return (data['nama'] ?? '').toString();
+}
+
+Future<void> simpanNamaAwan(String nama) async {
+  var dok = dokumenSaya();
+  if (dok == null) {
+    return;
+  }
+  await dok.set({'nama': nama}, SetOptions(merge: true));
+}
+
+// format uang
 var _format2 = NumberFormat.currency(
   locale: 'id_ID',
   symbol: '\$',
@@ -106,7 +171,7 @@ var _format6 = NumberFormat.currency(
 );
 var _formatRingkas = NumberFormat.compact(locale: 'id_ID');
 
-// koin mahal 2 desimal, koin murah 4 atau 6 desimal
+// desimal ngikutin harga
 String formatHarga(double harga) {
   if (harga >= 1) {
     return _format2.format(harga);

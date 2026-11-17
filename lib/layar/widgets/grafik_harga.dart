@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import '../../model/koin.dart';
 import '../../theme/warna.dart';
 
-// grafik garis harga, dipakai di layar detail
+// grafik garis
 class GrafikHarga extends StatelessWidget {
   const GrafikHarga({
     super.key,
@@ -34,7 +34,7 @@ class GrafikHarga extends StatelessWidget {
       spot.add(FlSpot(i.toDouble(), titik[i].harga));
     }
 
-    // batas atas bawah biar grafiknya pas
+    // batas atas bawah
     var bawah = titik[0].harga;
     var atas = titik[0].harga;
     for (var t in titik) {

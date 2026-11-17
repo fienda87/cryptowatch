@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/warna.dart';
 
-// kotak abu-abu sementara pas data lagi diambil
+// kotak loading
 class KerangkaKoin extends StatelessWidget {
   const KerangkaKoin({super.key});
 

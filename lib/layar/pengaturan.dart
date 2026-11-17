@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../layanan/auth.dart';
+import '../model/koin.dart';
 import '../../theme/warna.dart';
 
 class LayarPengaturan extends StatefulWidget {
@@ -24,18 +25,41 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
     muatProfil();
   }
 
-  // nama disimpan di hp, email diambil dari akun firebase
+  // nama di hp + firestore
   void muatProfil() async {
     var toko = await SharedPreferences.getInstance();
+    var user = FirebaseAuth.instance.currentUser;
+    var namaAwal = toko.getString('nama') ?? '';
+
+    // nama kosong, pakai bagian depan email
+    if (namaAwal.trim() == '') {
+      var mail = user?.email ?? '';
+      if (mail.contains('@')) {
+        namaAwal = mail.split('@')[0];
+      }
+    }
+
+    if (!mounted) {
+      return;
+    }
     setState(() {
-      nama = toko.getString('nama') ?? '';
-      email = FirebaseAuth.instance.currentUser?.email ?? '';
+      nama = namaAwal;
+      email = user?.email ?? '';
+    });
+
+    var dariAwan = await ambilNamaAwan();
+    if (!mounted || dariAwan == '') {
+      return;
+    }
+    setState(() {
+      nama = dariAwan;
     });
   }
 
   void simpanNama(String isi) async {
     var toko = await SharedPreferences.getInstance();
     await toko.setString('nama', isi);
+    await simpanNamaAwan(isi);
   }
 
   String inisial() {

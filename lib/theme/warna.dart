@@ -10,5 +10,8 @@ class WarnaApp {
   static const teksRedup = Color(0xFF848E9C);
   static const untung = Color(0xFF0ECB81);
   static const rugi = Color(0xFFF6465D);
-  static const aksen = Color(0xFFF0B90B);
+  // hijau mint, ngikutin logo
+  static const aksen = Color(0xFF2BE8A4);
+  // khusus bintang favorit, biar tetap ciri khas
+  static const bintang = Color(0xFFF0B90B);
 }

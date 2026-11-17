@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-// semua urusan login ada di sini biar layar tetap sederhana
+// urusan login
 
 Future<UserCredential> masukFirebase(String email, String sandi) {
   return FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -21,7 +21,7 @@ Future<void> keluarFirebase() {
   return FirebaseAuth.instance.signOut();
 }
 
-// login pakai akun google, tokennya ditukar ke firebase
+// login google
 Future<UserCredential?> masukGoogle() async {
   var google = GoogleSignIn(scopes: ['email']);
   var akun = await google.signIn();
@@ -37,7 +37,7 @@ Future<UserCredential?> masukGoogle() async {
   return FirebaseAuth.instance.signInWithCredential(kredensial);
 }
 
-// kode error firebase diterjemahkan ke bahasa manusia
+// error firebase versi manusia
 String pesanAuth(Object e) {
   if (e is FirebaseAuthException) {
     if (e.code == 'invalid-email') {

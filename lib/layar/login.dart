@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../layanan/auth.dart';
 import '../../theme/warna.dart';
 
-// masuk pakai email + sandi dari firebase
+// login email
 class LayarMasuk extends StatefulWidget {
   LayarMasuk({super.key});
 
@@ -32,7 +32,7 @@ class _LayarMasukState extends State<LayarMasuk> {
 
     try {
       await masukFirebase(kontrolEmail.text.trim(), kontrolSandi.text);
-      // kalau sukses, Gerbang otomatis pindah ke halaman utama
+      // sukses, gerbang yang pindah
     } catch (e) {
       setState(() {
         galat = pesanAuth(e);
@@ -41,7 +41,7 @@ class _LayarMasukState extends State<LayarMasuk> {
     }
   }
 
-  // tombol google, pakai akun yang sudah login di hp
+  // login google
   void masukDenganGoogle() async {
     setState(() {
       memuat = true;

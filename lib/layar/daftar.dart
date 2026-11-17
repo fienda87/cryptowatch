@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../layanan/auth.dart';
 import '../../theme/warna.dart';
 
-// daftar akun baru pakai email + sandi
+// daftar akun
 class LayarDaftar extends StatefulWidget {
   const LayarDaftar({super.key});
 
@@ -44,7 +44,7 @@ class _LayarDaftarState extends State<LayarDaftar> {
 
     try {
       await daftarFirebase(email, sandi);
-      // akun langsung masuk, balik ke gerbang
+      // langsung masuk
       navigator.pop();
     } catch (e) {
       setState(() {

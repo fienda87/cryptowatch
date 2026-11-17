@@ -11,7 +11,7 @@ import 'theme/tema.dart';
 import 'theme/warna.dart';
 
 void main() async {
-  // firebase + favorit disiapkan dulu, baru app jalan
+  // siapin firebase dulu
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await muatFavorit();
@@ -36,9 +36,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// nentuin layar: belum login masuk, sudah login halaman utama
-class Gerbang extends StatelessWidget {
+// gerbang login
+class Gerbang extends StatefulWidget {
   const Gerbang({super.key});
+
+  @override
+  State<Gerbang> createState() => _GerbangState();
+}
+
+class _GerbangState extends State<Gerbang> {
+  String uidTerakhir = '';
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +59,15 @@ class Gerbang extends StatelessWidget {
             ),
           );
         }
-        if (snap.data == null) {
+        var user = snap.data;
+        if (user == null) {
+          uidTerakhir = '';
           return LayarMasuk();
+        }
+        // ganti akun, ambil favoritnya
+        if (uidTerakhir != user.uid) {
+          uidTerakhir = user.uid;
+          muatAwan();
         }
         return const HalamanUtama();
       },

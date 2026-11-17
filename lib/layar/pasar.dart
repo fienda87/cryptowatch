@@ -21,20 +21,28 @@ class _LayarPasarState extends State<LayarPasar> {
   bool memuat = true;
   String galat = '';
   Timer? tundaCari;
+  Timer? jamRefresh;
 
   @override
   void initState() {
     super.initState();
     muatKoin();
+    // refresh tiap 5 menit
+    jamRefresh = Timer.periodic(Duration(minutes: 5), (t) {
+      if (daftarKoin.isNotEmpty) {
+        muatKoin(paksa: true);
+      }
+    });
   }
 
   @override
   void dispose() {
     tundaCari?.cancel();
+    jamRefresh?.cancel();
     super.dispose();
   }
 
-  // ambil data dari api, kalau gagal tampilkan pesan
+  // ambil dari api
 
   Future<void> muatKoin({bool paksa = false}) async {
     if (!paksa && daftarKoin.isNotEmpty) {
@@ -62,7 +70,7 @@ class _LayarPasarState extends State<LayarPasar> {
     } catch (e) {
       setState(() {
         memuat = false;
-        // data lama tetap dipakai kalau masih ada
+        // data lama dipakai
         if (daftarKoin.isEmpty) {
           galat = 'Gagal ambil data. Cek internet, lalu coba lagi.';
         }
@@ -119,15 +127,17 @@ class _LayarPasarState extends State<LayarPasar> {
       );
     }
 
-    // hasil saring
+    // saring
     var hasil = daftarKoin;
     if (pilih == 1) {
       hasil = daftarKoin.where((k) => k.perubahan24j > 0).toList();
+      hasil.sort((a, b) => b.perubahan24j.compareTo(a.perubahan24j));
     } else if (pilih == 2) {
       hasil = daftarKoin.where((k) => k.perubahan24j < 0).toList();
+      hasil.sort((a, b) => a.perubahan24j.compareTo(b.perubahan24j));
     }
 
-    // cari nama atau simbol
+    // cari
     if (cari != '') {
       var kata = cari.toLowerCase();
       hasil = hasil
@@ -139,7 +149,7 @@ class _LayarPasarState extends State<LayarPasar> {
           .toList();
     }
 
-    // search, tarik ke bawah buat muat ulang data
+    // tarik buat refresh
     return RefreshIndicator(
       onRefresh: () async {
         await muatKoin(paksa: true);
@@ -151,7 +161,7 @@ class _LayarPasarState extends State<LayarPasar> {
           TextField(
             style: TextStyle(color: WarnaApp.teksUtama, fontSize: 14),
             onChanged: (teks) {
-              // tunggu 300ms biar nggak nyaring tiap huruf
+              // tunggu 300ms
               tundaCari?.cancel();
               tundaCari = Timer(Duration(milliseconds: 300), () {
                 setState(() {
@@ -202,7 +212,7 @@ class _LayarPasarState extends State<LayarPasar> {
           ),
           SizedBox(height: 8),
 
-          // list koin (api nyusul)
+          // list koin
           if (hasil.isEmpty)
             Padding(
               padding: EdgeInsets.only(top: 40),

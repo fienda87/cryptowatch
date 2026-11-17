@@ -4,13 +4,13 @@ import 'package:http/http.dart' as http;
 
 import '../model/koin.dart';
 
-// 50 koin teratas, gratis dan nggak pakai api key
+// 50 koin teratas
 var alamatApi =
     'https://api.coingecko.com/api/v3/coins/markets'
     '?vs_currency=usd&order=market_cap_desc&per_page=50&page=1'
     '&sparkline=false&price_change_percentage=24h';
 
-// ambil data koin dari api, kalau gagal dilempar ke pemanggil
+// ambil koin dari api
 Future<List<Koin>> ambilKoin() async {
   var respon = await http
       .get(Uri.parse(alamatApi))
@@ -28,8 +28,8 @@ Future<List<Koin>> ambilKoin() async {
   return hasil;
 }
 
-// deskripsi panjang dari api detail, tag html-nya dibuang dulu
-Future<String> ambilDeskripsi(String id) async {
+// deskripsi + ath dari api detail
+Future<Map<String, dynamic>> ambilInfoKoin(String id) async {
   var alamat =
       'https://api.coingecko.com/api/v3/coins/$id'
       '?localization=false&tickers=false&community_data=false'
@@ -43,12 +43,29 @@ Future<String> ambilDeskripsi(String id) async {
 
   var data = jsonDecode(respon.body) as Map;
   var teks = (data['description']?['en'] ?? '').toString();
-  teks = teks.replaceAll(RegExp(r'<[^>]*>'), ' ');
-  teks = teks.replaceAll(RegExp(r'\s+'), ' ').trim();
-  return teks;
+
+  // paragraf dipisah dulu, baru tag dibuang
+  teks = teks.replaceAll(
+    RegExp(r'</p>|<br\s*/?>', caseSensitive: false),
+    '\n\n',
+  );
+  teks = teks.replaceAll(RegExp(r'<[^>]*>'), '');
+
+  // rapihin spasi
+  var baris = <String>[];
+  for (var b in teks.split('\n')) {
+    var bersih = b.replaceAll(RegExp(r'[ \t]+'), ' ').trim();
+    if (bersih != '') {
+      baris.add(bersih);
+    }
+  }
+
+  var ath = ((data['market_data']?['ath']?['usd'] ?? 0) as num).toDouble();
+
+  return {'deskripsi': baris.join('\n'), 'ath': ath};
 }
 
-// titik harga buat grafik, hari = 1, 7, 30, atau 365
+// titik harga buat grafik
 Future<List<Titik>> ambilGrafik(String id, int hari) async {
   var alamat =
       'https://api.coingecko.com/api/v3/coins/$id/market_chart'
