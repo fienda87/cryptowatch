@@ -336,7 +336,8 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
               ),
             ),
             SizedBox(height: 24),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'CryptoWatch v1.0.0',

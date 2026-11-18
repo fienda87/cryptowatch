@@ -35,7 +35,7 @@ Privasi: https://fienda87.github.io/cryptowatch/privasi.html
 - Tag: `Finance`
 
 ## Kontak
-- Email dukungan: (isi email kamu)
+- Email dukungan: 11231087@student.itk.ac.id
 - Situs web: https://fienda87.github.io/cryptowatch/
 - Kebijakan privasi: https://fienda87.github.io/cryptowatch/privasi.html
 - Hapus akun: https://fienda87.github.io/cryptowatch/hapus-akun.html
