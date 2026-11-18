@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1039585055230:android:b4ef468c039474a84cf0af",
         "android_client_info": {
-          "package_name": "com.cryptowatch.app"
+          "package_name": "com.cryptowatch1187.app"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1039585055230-1aqmd8flgie58gninugdbkfqrqmn06gl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.cryptowatch.app",
+            "package_name": "com.cryptowatch1187.app",
             "certificate_hash": "2d067f9b0ace826ee87128179c04d7aeb9e15848"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "1039585055230-6j2sbhvqabskd7p29p0ns8teacla336m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.cryptowatch.app",
+            "package_name": "com.cryptowatch1187.app",
             "certificate_hash": "2f3c61048b3599e5a2d3520365ca82dd6f150016"
           }
         },

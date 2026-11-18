@@ -1,4 +1,4 @@
-package com.cryptowatch.app
+package com.cryptowatch1187.app
 
 import io.flutter.embedding.android.FlutterActivity
 

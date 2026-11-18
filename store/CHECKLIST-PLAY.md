@@ -3,7 +3,7 @@
 Urut dari atas. Centang satu per satu.
 
 ## A. Yang sudah siap di proyek
-- [x] Package unik `com.cryptowatch.app`
+- [x] Package unik `com.cryptowatch1187.app`
 - [x] `version: 1.0.0+1` di pubspec
 - [x] Izin INTERNET di AndroidManifest
 - [x] Keystore + `key.properties` + signing release di Gradle
