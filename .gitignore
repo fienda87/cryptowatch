@@ -57,6 +57,6 @@ run_out.txt
 android/key.properties
 android/upload-keystore.jks
 *.jks
-*_out.txt
+*_out*.txt
 build_akhir.txt
 aab_akhir.txt

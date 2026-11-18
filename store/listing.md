@@ -45,7 +45,10 @@ Privasi: https://fienda87.github.io/cryptowatch/privasi.html
 |---|---|---|
 | `ikon-512.png` | 512x512 PNG | Ikon aplikasi |
 | `grafis-fitur-1024x500.jpg` | 1024x500 JPEG | Feature graphic |
-| `screenshot-1..4.png` | 1080x1920 | Screenshot ponsel |
+| `screenshot-1.jpg` | 1080x2160 | Pasar |
+| `screenshot-2.jpg` | 1080x2160 | Detail koin |
+| `screenshot-3.jpg` | 1080x2160 | Pantauan |
+| `screenshot-4.jpg` | 1080x2160 | Pengaturan |
 
 ## Jawaban Data safety
 - Apakah aplikasi mengumpulkan data? **Ya**
