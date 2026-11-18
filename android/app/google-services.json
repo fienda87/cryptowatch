@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1039585055230:android:b4ef468c039474a84cf0af",
         "android_client_info": {
-          "package_name": "com.cryptowatch1187.app"
+          "package_name": "com.cryptowatch.app"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "1039585055230-1aqmd8flgie58gninugdbkfqrqmn06gl.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.cryptowatch1187.app",
+            "package_name": "com.cryptowatch.app",
             "certificate_hash": "2d067f9b0ace826ee87128179c04d7aeb9e15848"
           }
         },
@@ -25,8 +25,53 @@
           "client_id": "1039585055230-6j2sbhvqabskd7p29p0ns8teacla336m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
+            "package_name": "com.cryptowatch.app",
+            "certificate_hash": "2f3c61048b3599e5a2d3520365ca82dd6f150016"
+          }
+        },
+        {
+          "client_id": "1039585055230-48uc0md56uj59v5g94br9d0n61vlnmd8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVV_Cs63dsZVKuZlty_DHDPoH5Dxphd-s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039585055230-48uc0md56uj59v5g94br9d0n61vlnmd8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039585055230:android:0a21f394e0b9dd124cf0af",
+        "android_client_info": {
+          "package_name": "com.cryptowatch1187.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039585055230-69dfvug0vvblosvgl2i4sifoahr5ue0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
             "package_name": "com.cryptowatch1187.app",
             "certificate_hash": "2f3c61048b3599e5a2d3520365ca82dd6f150016"
+          }
+        },
+        {
+          "client_id": "1039585055230-rjfno5sh6j5mgl4u21g276sued4o2gc8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cryptowatch1187.app",
+            "certificate_hash": "2d067f9b0ace826ee87128179c04d7aeb9e15848"
           }
         },
         {
