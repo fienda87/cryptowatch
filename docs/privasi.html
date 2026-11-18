@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kebijakan Privasi - CryptoWatch</title>
+<style>
+  body { background: #0b0e11; color: #eaecef; font-family: Arial, Helvetica, sans-serif; line-height: 1.6; margin: 0; }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 26px; margin-bottom: 4px; }
+  h2 { font-size: 18px; margin-top: 28px; color: #2be8a4; }
+  p, li { font-size: 15px; color: #c7ccd4; }
+  .redup { color: #848e9c; font-size: 13px; }
+  a { color: #2be8a4; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Kebijakan Privasi CryptoWatch</h1>
+  <p class="redup">Terakhir diperbarui: 19 November 2026</p>
+
+  <p>CryptoWatch adalah aplikasi informasi harga cryptocurrency untuk tugas mata kuliah
+  Pengembangan Aplikasi Perangkat Bergerak. Aplikasi ini tidak menyediakan jual beli,
+  dompet, atau transaksi keuangan apa pun.</p>
+
+  <h2>Data yang dikumpulkan</h2>
+  <ul>
+    <li><b>Email dan nama</b> saat mendaftar atau masuk dengan Google, disimpan di Firebase Authentication.</li>
+    <li><b>Daftar koin pantauan</b> yang dipilih sendiri oleh pengguna, disimpan di Cloud Firestore
+      pada dokumen akun pengguna, dan salinan lokal di perangkat.</li>
+    <li><b>Nama tampilan</b> yang diisi pada halaman Pengaturan, disimpan lokal dan di Cloud Firestore.</li>
+  </ul>
+
+  <h2>Data yang tidak dikumpulkan</h2>
+  <p>CryptoWatch tidak meminta lokasi, kontak, kamera, mikrofon, file, maupun data kesehatan.
+  Tidak ada iklan, tidak ada pelacakan, dan tidak ada penjualan data ke pihak lain.</p>
+
+  <h2>Pihak ketiga</h2>
+  <ul>
+    <li><b>Google Firebase</b> (Authentication dan Cloud Firestore) untuk akun dan sinkronisasi pantauan.</li>
+    <li><b>CoinGecko API</b> untuk data harga dan logo koin. Permintaan hanya berisi nama koin yang diminta,
+      tanpa data pribadi pengguna.</li>
+    <li><b>Google Fonts</b> untuk memuat font Inter.</li>
+  </ul>
+
+  <h2>Penyimpanan dan keamanan</h2>
+  <p>Data dikirim lewat koneksi terenkripsi HTTPS. Daftar pantauan hanya bisa dibaca oleh akun yang
+  sedang masuk. Logo koin disimpan sementara (cache) di perangkat agar tidak mengunduh berulang.</p>
+
+  <h2>Penghapusan data</h2>
+  <p>Akun beserta nama dan daftar pantauan dapat dihapus dari dalam aplikasi:
+  buka <b>Pengaturan</b>, tekan <b>Hapus akun</b>, lalu konfirmasi. Penghapusan langsung berlaku dan
+  tidak dapat dibatalkan. Penjelasan lengkap ada di
+  <a href="hapus-akun.html">halaman penghapusan akun</a>.</p>
+
+  <h2>Anak-anak</h2>
+  <p>Aplikasi ini tidak ditujukan untuk anak di bawah 13 tahun dan tidak mengumpulkan data anak.</p>
+
+  <h2>Perubahan kebijakan</h2>
+  <p>Jika kebijakan ini berubah, tanggal di bagian atas halaman akan diperbarui.</p>
+
+  <h2>Kontak</h2>
+  <p>Pertanyaan tentang privasi: <a href="mailto:EMAIL-KONTAK">EMAIL-KONTAK</a></p>
+</main>
+</body>
+</html>

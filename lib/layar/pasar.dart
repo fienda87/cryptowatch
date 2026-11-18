@@ -201,14 +201,41 @@ class _LayarPasarState extends State<LayarPasar> {
             ),
           ),
 
-          SizedBox(height: 8),
-          Text(
-            'Daftar Koin',
-            style: TextStyle(
-              color: WarnaApp.teksUtama,
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
+          SizedBox(height: 16),
+          Row(
+            children: [
+              Text(
+                'Daftar koin',
+                style: TextStyle(
+                  color: WarnaApp.teksUtama,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Spacer(),
+              Text(
+                '${hasil.length} koin',
+                style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+              ),
+              SizedBox(width: 8),
+              GestureDetector(
+                onTap: () {
+                  muatKoin(paksa: true);
+                },
+                child: Container(
+                  padding: EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: WarnaApp.permukaanTinggi,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.refresh,
+                    size: 16,
+                    color: WarnaApp.teksRedup,
+                  ),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 8),
 
@@ -249,15 +276,16 @@ class _LayarPasarState extends State<LayarPasar> {
         margin: EdgeInsets.only(right: 8),
         padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: aktif ? WarnaApp.permukaanTinggi : WarnaApp.permukaan,
+          color: aktif ? WarnaApp.aksen : WarnaApp.permukaan,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: WarnaApp.pemisah),
+          border: Border.all(color: aktif ? WarnaApp.aksen : WarnaApp.pemisah),
         ),
         child: Text(
           teks,
           style: TextStyle(
-            color: aktif ? WarnaApp.teksUtama : WarnaApp.teksRedup,
+            color: aktif ? Colors.black : WarnaApp.teksRedup,
             fontSize: 13,
+            fontWeight: aktif ? FontWeight.w700 : FontWeight.w400,
           ),
         ),
       ),

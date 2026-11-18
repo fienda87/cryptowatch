@@ -26,7 +26,7 @@ class TemaApp {
         titleTextStyle: TextStyle(
           color: WarnaApp.teksUtama,
           fontWeight: FontWeight.w700,
-          fontSize: 18,
+          fontSize: 20,
         ),
       ),
       // dialog disamain sama warna app, ukuran teksnya seimbang

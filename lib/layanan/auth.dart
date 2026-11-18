@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -19,6 +20,30 @@ Future<UserCredential> daftarFirebase(String email, String sandi) {
 
 Future<void> keluarFirebase() {
   return FirebaseAuth.instance.signOut();
+}
+
+// hapus akun sekalian datanya
+Future<String> hapusAkun() async {
+  var user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    return 'Belum masuk.';
+  }
+
+  try {
+    await FirebaseFirestore.instance.collection('users').doc(user.uid).delete();
+  } catch (e) {
+    // data awan gagal dihapus, akun tetap lanjut dihapus
+  }
+
+  try {
+    await user.delete();
+    return '';
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'requires-recent-login') {
+      return 'Demi keamanan, keluar lalu masuk lagi, baru hapus akun.';
+    }
+    return 'Gagal hapus akun: ${e.message}';
+  }
 }
 
 // login google

@@ -19,6 +19,8 @@ class LayarPantauan extends StatelessWidget {
         if (daftarFavorit.isEmpty) {
           return isiKosong();
         }
+        var jumlahNaik = daftarFavorit.where((k) => k.perubahan24j >= 0).length;
+        var jumlahTurun = daftarFavorit.length - jumlahNaik;
         return RefreshIndicator(
           onRefresh: () async {
             var pesan = ScaffoldMessenger.of(context);
@@ -36,11 +38,32 @@ class LayarPantauan extends StatelessWidget {
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(16),
             children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 12),
-                child: Text(
-                  '${daftarFavorit.length} aset dipantau',
-                  style: TextStyle(color: WarnaApp.teksRedup, fontSize: 13),
+              Container(
+                margin: EdgeInsets.only(bottom: 12),
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: WarnaApp.permukaan,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: WarnaApp.pemisah, width: 0.5),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.star, size: 18, color: WarnaApp.bintang),
+                    SizedBox(width: 8),
+                    Text(
+                      '${daftarFavorit.length} aset dipantau',
+                      style: TextStyle(
+                        color: WarnaApp.teksUtama,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      '$jumlahNaik naik · $jumlahTurun turun',
+                      style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                    ),
+                  ],
                 ),
               ),
               for (var koin in daftarFavorit)

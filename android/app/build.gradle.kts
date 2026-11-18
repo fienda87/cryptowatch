@@ -1,9 +1,19 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // google services buat firebase
     id("com.google.gms.google-services")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// password keystore disimpan di luar repo
+val berkasKunci = rootProject.file("key.properties")
+val kunci = Properties()
+if (berkasKunci.exists()) {
+    kunci.load(FileInputStream(berkasKunci))
 }
 
 android {
@@ -31,11 +41,19 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = kunci["keyAlias"] as String
+            keyPassword = kunci["keyPassword"] as String
+            storeFile = file(kunci["storeFile"] as String)
+            storePassword = kunci["storePassword"] as String
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // tanda tangan pakai keystore sendiri
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

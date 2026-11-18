@@ -27,11 +27,21 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           });
         },
         child: Container(
-          padding: EdgeInsets.only(top: 8, bottom: 8),
+          padding: EdgeInsets.only(top: 6, bottom: 8),
           color: WarnaApp.latar,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              // garis kecil penanda tab aktif
+              Container(
+                width: 18,
+                height: 3,
+                decoration: BoxDecoration(
+                  color: aktif ? WarnaApp.aksen : Colors.transparent,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              SizedBox(height: 6),
               Icon(
                 ikon,
                 color: aktif ? WarnaApp.aksen : WarnaApp.teksRedup,
@@ -83,6 +93,10 @@ class _HalamanUtamaState extends State<HalamanUtama> {
         appBar: AppBar(
           title: Text(
             tab == 0 ? 'Pasar' : (tab == 1 ? 'Pantauan' : 'Pengaturan'),
+          ),
+          bottom: PreferredSize(
+            preferredSize: Size.fromHeight(0.5),
+            child: Container(height: 0.5, color: WarnaApp.pemisah),
           ),
         ),
         // landscape:

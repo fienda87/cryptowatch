@@ -62,6 +62,49 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
     await simpanNamaAwan(isi);
   }
 
+  // hapus akun, semua data ikut hilang
+  void konfirmasiHapus() async {
+    var pesan = ScaffoldMessenger.of(context);
+    var setuju = await showDialog(
+      context: context,
+      builder: (c) {
+        return AlertDialog(
+          title: Text('Hapus akun?'),
+          content: Text('Akun, nama, dan pantauanmu dihapus permanen.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(c, false);
+              },
+              child: Text('Batal'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(c, true);
+              },
+              child: Text('Hapus', style: TextStyle(color: WarnaApp.rugi)),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (setuju != true) {
+      return;
+    }
+
+    var galat = await hapusAkun();
+    if (galat != '') {
+      pesan.showSnackBar(SnackBar(content: Text(galat)));
+      return;
+    }
+
+    var toko = await SharedPreferences.getInstance();
+    await toko.clear();
+    favorit = {};
+    versiFavorit.value = versiFavorit.value + 1;
+  }
+
   String inisial() {
     if (nama.trim().isEmpty) {
       return '?';
@@ -202,6 +245,41 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: WarnaApp.pemisah, width: 0.5),
               ),
+              child: GestureDetector(
+                onTap: konfirmasiHapus,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.delete_forever_outlined,
+                        size: 22,
+                        color: WarnaApp.rugi,
+                      ),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          'Hapus akun',
+                          style: TextStyle(color: WarnaApp.rugi),
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: WarnaApp.teksRedup,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 16),
+            Container(
+              decoration: BoxDecoration(
+                color: WarnaApp.permukaan,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: WarnaApp.pemisah, width: 0.5),
+              ),
 
               child: GestureDetector(
                 onTap: () {
@@ -262,6 +340,11 @@ class _LayarPengaturanState extends State<LayarPengaturan> {
               children: [
                 Text(
                   'CryptoWatch v1.0.0',
+                  style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Data harga dari CoinGecko API',
                   style: TextStyle(color: WarnaApp.teksRedup, fontSize: 12),
                 ),
               ],

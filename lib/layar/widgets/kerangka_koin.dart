@@ -10,7 +10,7 @@ class KerangkaKoin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: WarnaApp.permukaan,
         borderRadius: BorderRadius.circular(12),
@@ -19,8 +19,8 @@ class KerangkaKoin extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: 36,
-            height: 36,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: WarnaApp.permukaanTinggi,
               shape: BoxShape.circle,

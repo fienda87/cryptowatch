@@ -52,3 +52,11 @@ app.*.map.json
 
 analyze_out.txt
 run_out.txt
+
+# keystore release, jangan ikut ke github
+android/key.properties
+android/upload-keystore.jks
+*.jks
+*_out.txt
+build_akhir.txt
+aab_akhir.txt
