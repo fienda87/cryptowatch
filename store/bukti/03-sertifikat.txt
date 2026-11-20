@@ -1,0 +1,8 @@
+﻿=== 3. SERTIFIKAT APK RELEASE ===
+
+Signer #1 certificate DN: CN=CryptoWatch, OU=PAPB, O=Mahasiswa, L=Bandung, ST=Jawa Barat, C=ID
+Signer #1 certificate SHA-256 digest: 841edb9e707e0dec83ad5128dce96ce025a95e52d337e3ed5ef9d54f3a326839
+Signer #1 certificate SHA-1 digest: 2d067f9b0ace826ee87128179c04d7aeb9e15848
+
+
+

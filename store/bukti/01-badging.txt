@@ -1,0 +1,9 @@
+﻿=== 1. BADGING (release apk) ===
+
+package: name='com.cryptowatch1187.app' versionCode='1' versionName='1.0.0' platformBuildVersionName='16' 
+platformBuildVersionCode='36' compileSdkVersion='36' compileSdkVersionCodename='16'
+targetSdkVersion:'36'
+application-label:'CryptoWatch'
+
+
+
